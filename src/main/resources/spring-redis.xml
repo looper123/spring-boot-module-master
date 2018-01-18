@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--spring redis sentinel or cluster-->
+    <!--sentinel config 和 cluster config 只需要选一个-->
+    <bean name="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="poolConfig" ref="jedisPoolConfig"/>
+        <constructor-arg name="sentinelConfig" ref="sentinelConfig"/>
+        <!--<constructor-arg name="clusterConfig"  ref="clusterConfig"/>-->
+    </bean>
+
+    <!--sentinel config-->
+    <!-- spring 会寻找sentinel 监控的redis 节点  所有的redis 命令其实是 sentinel 节点中配置的监控节点执行的-->
+    <bean name="sentinelConfig" class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
+        <constructor-arg name="master" value="mymaster"/>
+        <constructor-arg name="sentinelHostAndPorts"  value="192.168.194.130:26379"/>
+    </bean>
+
+    <!--pool config-->
+    <bean name="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="3000"/>
+        <property name="maxIdle" value="500"/>
+        <property name="minIdle" value="10"/>
+        <property name="maxWaitMillis" value="3000"/>
+        <property name="testOnBorrow" value="true"/>
+        <property name="testOnReturn" value="true"/>
+    </bean>
+
+    <!--cluster config -->
+    <bean name="clusterConfig" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
+        <!--<property name="clusterNodes" >-->
+        <property name="clusterNodes">
+            <set>
+                <bean name="redisNode"  class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="192.168.194.130"/>
+                    <constructor-arg name="port" value="7000" type="int"/>
+                </bean>
+                <bean name="redisNode"  class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="192.168.194.130"/>
+                    <constructor-arg name="port" value="7001" type="int"/>
+                </bean>
+                <bean name="redisNode"  class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="192.168.194.130"/>
+                    <constructor-arg name="port" value="7002" type="int"/>
+                </bean>
+                <bean name="redisNode"  class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="192.168.194.132"/>
+                    <constructor-arg name="port" value="7003" type="int"/>
+                </bean>
+                <bean name="redisNode"  class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="192.168.194.132"/>
+                    <constructor-arg name="port" value="7004" type="int"/>
+                </bean>
+                <bean name="redisNode"  class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="192.168.194.132"/>
+                    <constructor-arg name="port" value="7005" type="int"/>
+                </bean>
+            </set>
+        </property>
+    </bean>
+
+
+    <!--redistemplate-->
+    <bean name="redisTemplate"  class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="keySerializer"  ref="keySerializer" />
+        <property name="hashKeySerializer"  ref="keySerializer" />
+        <property name="valueSerializer" ref="valueSerializer"/>
+        <property name="hashValueSerializer" ref="valueSerializer"/>
+        <property name="connectionFactory" ref="jedisConnectionFactory"/>
+    </bean>
+
+    <!--key & value serializer-->
+    <bean name="keySerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+    <bean name="valueSerializer" class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+
+</beans>
