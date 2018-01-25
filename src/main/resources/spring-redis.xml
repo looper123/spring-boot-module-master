@@ -3,19 +3,21 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!--spring redis sentinel or cluster-->
-    <!--sentinel config 和 cluster config 只需要选一个-->
-    <bean name="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-        <property name="poolConfig" ref="jedisPoolConfig"/>
-        <constructor-arg name="sentinelConfig" ref="sentinelConfig"/>
-        <!--<constructor-arg name="clusterConfig"  ref="clusterConfig"/>-->
-    </bean>
 
     <!--sentinel config-->
     <!-- spring 会寻找sentinel 监控的redis 节点  所有的redis 命令其实是 sentinel 节点中配置的监控节点执行的-->
+    <!--使用了sentinelconfig 后无法再使用redis的cluster功能 因为在sentinelconfig 底层使用了jedis连接 而当哨兵连接到cluster时 向集群中的
+    其他节点发送command时 需要用clusterconfig
+    -->
     <bean name="sentinelConfig" class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
         <constructor-arg name="master" value="mymaster"/>
-        <constructor-arg name="sentinelHostAndPorts"  value="192.168.194.130:26379"/>
+        <!--<constructor-arg name="sentinelHostAndPorts"  value="192.168.194.130:26379,192.168.194.132:26379">-->
+        <constructor-arg name="sentinelHostAndPorts" >
+            <set>
+                <value type="java.lang.String">192.168.194.132:26380</value>
+               <value type="java.lang.String">192.168.194.130:26379</value>
+            </set>
+        </constructor-arg>
     </bean>
 
     <!--pool config-->
@@ -27,6 +29,8 @@
         <property name="testOnBorrow" value="true"/>
         <property name="testOnReturn" value="true"/>
     </bean>
+
+
 
     <!--cluster config -->
     <bean name="clusterConfig" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
@@ -61,9 +65,19 @@
         </property>
     </bean>
 
+    <!--spring redis sentinel or cluster-->
+    <!--sentinel config 和 cluster config 只需要选一个-->
+    <!--注意 spring 对sentinel 和 cluster的支持也只能二选一
+     在spring 下sentinel 监控的底层redis节点不能是集群模式（不支持）
+    -->
+    <bean name="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="poolConfig" ref="jedisPoolConfig"/>
+        <constructor-arg name="sentinelConfig" ref="sentinelConfig"/>
+        <!--<constructor-arg name="clusterConfig" ref="clusterConfig"/>-->
+    </bean>
 
     <!--redistemplate-->
-    <bean name="redisTemplate"  class="org.springframework.data.redis.core.RedisTemplate">
+    <bean name="myRedisTemplate"  class="org.springframework.data.redis.core.RedisTemplate">
         <property name="keySerializer"  ref="keySerializer" />
         <property name="hashKeySerializer"  ref="keySerializer" />
         <property name="valueSerializer" ref="valueSerializer"/>
@@ -74,5 +88,10 @@
     <!--key & value serializer-->
     <bean name="keySerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
     <bean name="valueSerializer" class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+
+
+
+
+
 
 </beans>
