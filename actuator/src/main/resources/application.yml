@@ -1,0 +1,31 @@
+#dubbo服务调用者
+spring:
+  dubbo:
+    application:
+      name: demo-consumer
+    base-package: com.test.dubbo.consumer  # dubbo服务调用者所在的包
+    registry:
+      address: 192.168.194.130                 # zookeeper注册中心的地址
+      port: 2181                           # zookeeper注册中心的端口
+    consumer:
+      timeout: 1000
+      check: true                          # 服务启动时检查被调用服务是否可用
+      retries: 2                           # 服务调用重试次数
+
+#推荐挂关闭所有  只开启想要使用的endpoint
+# endpoint http 访问路径配置
+endpoint:
+  enabled: false
+  health:
+    enabled: true
+  info:
+    enabled: true
+
+#访问上下文路径 默认是根路径
+#指定服务监听地址 （只有本地能访问）
+#指定服务监听端口 （默认和应用对外端口相同）
+#如果配置为-1 表示关闭管理接口对外提供的服务
+management:
+  context-path: /endpoint
+  address: 127.0.0.1
+  port: 8181

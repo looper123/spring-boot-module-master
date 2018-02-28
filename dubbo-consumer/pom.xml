@@ -4,20 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.quark.module</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>dubbo-consumer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<modules>
-		<module>redis-sentinel-distribute</module>
-		<module>security</module>
-		<module>actuator</module>
-		<module>dubbo-api</module>
-		<module>dubbo-provider</module>
-		<module>dubbo-consumer</module>
-	</modules>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 
-	<name>spring-boot-module-master</name>
-	<description>Spring Boot modules</description>
+	<name>dubbo-consumer</name>
+	<description>Demo project for Spring Boot</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -35,15 +27,26 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
-
-
-
-
+		<dependency>
+			<groupId>com.quark.module</groupId>
+			<artifactId>dubbo-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
