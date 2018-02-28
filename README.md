@@ -1,2 +1,2 @@
 # spring-boot-module-master  
-spring-boot +redis
+spring-boot + different modules 
