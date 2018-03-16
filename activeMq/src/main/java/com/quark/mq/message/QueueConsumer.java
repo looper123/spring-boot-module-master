@@ -19,12 +19,17 @@ package com.quark.mq.message;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
+/**
+ * 接收queue的消息  （点对点模式）
+ */
 @Component
-public class Consumer {
+public class QueueConsumer {
+
 
 	@JmsListener(destination = "sample.queue")
 	public void receiveQueue(String text) {
-		System.out.println("consuming "+text+"....");
+		System.out.println("consuming from queue"+text+"....");
 	}
+
 
 }

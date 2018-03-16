@@ -27,9 +27,20 @@ public class ActiveMqApplicationTests {
 	public void contextLoads() {
 	}
 
+	/**
+	 * 测试点对点模式
+	 * @throws InterruptedException
+     */
 	@Test
-	public void mqConnectionTest() throws InterruptedException {
-		this.producer.send("Test message");
+	public void pointToPointModelTest() throws InterruptedException {
+		this.producer.sendQueue("queue message");
+		Thread.sleep(1000L);
+//		assertThat(this.outputCapture.toString().contains("Test message")).isTrue();
+	}
+
+	@Test
+	public void pubSubModelTest() throws InterruptedException {
+		this.producer.sendTopic("topic message");
 		Thread.sleep(1000L);
 //		assertThat(this.outputCapture.toString().contains("Test message")).isTrue();
 	}
