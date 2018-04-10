@@ -1,0 +1,3 @@
+org.springframework.boot.SpringApplicationRunListener=com.quark.module.listener.CustomerListener
+org.springframework.context.ApplicationContextInitializer=\
+  com.quark.module.initializer.\MyApplicationContextInitializer

@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@SuppressWarnings("deprecation")
 	@Bean
 	public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-		List<UserDetails>  userDetailList = new ArrayList<>();
+		List<UserDetails>  userDetailList = new ArrayList();
 		userDetailList.add(User.withUsername("user").password("password")
 				.authorities("ROLE_USER").build());
 		userDetailList.add(User.withUsername("admin").password("admin")

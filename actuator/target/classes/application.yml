@@ -1,0 +1,14 @@
+management:
+  context-path: /endpoint
+  #指定服务监听地址 （这里表示只有本地能访问）
+  address: 127.0.0.1
+  #指定服务监听端口 （默认和应用对外端口相同） 如果配置为-1 表示关闭管理接口对外提供的服务
+  port: 8181
+# 要实现自定以的healthIndicator必须要关闭 安全监测  否则必须通过spring boot的用户认证  {@link HealthMvcEndpoint.getHealth()}
+  security:
+    enabled: false
+server:
+  address: 127.0.0.1
+  port: 8082
+
+

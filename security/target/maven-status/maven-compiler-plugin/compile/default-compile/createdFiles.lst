@@ -1,0 +1,3 @@
+com\quark\module\security\ExampleController.class
+com\quark\module\SampleSecurityApplication.class
+com\quark\module\security\SecurityConfiguration.class

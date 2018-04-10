@@ -9,10 +9,8 @@
 	<modules>
 		<module>security</module>
 		<module>actuator</module>
-		<module>dubbo-api</module>
-		<module>dubbo-provider</module>
-		<module>dubbo-consumer</module>
 		<module>activeMq</module>
+		<module>autoconfiguration</module>
 	</modules>
 	<packaging>pom</packaging>
 
@@ -65,7 +63,26 @@
 		</dependency>
 
 
+		<!--log 只能选择一个日志框架-->
+		<!--logback-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+		</dependency>
 
+		<!--log4j-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-log4j</artifactId>-->
+			<!--<version>1.3.8.RELEASE</version>-->
+		<!--</dependency>-->
+
+		<!--log4j2-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-log4j2</artifactId>-->
+			<!--<version>1.3.8.RELEASE</version>-->
+		<!--</dependency>-->
 
 
 	</dependencies>

@@ -1,5 +1,5 @@
-activemq 两种模式
+activemq contains two models
 ==
-点对点模式（queue）只有一个消费者能收到通知
-发布订阅模式（pub/sub）所有订阅该消息的消费者都能受到通知
+point to point model （queue） only one consumer can receive message
+publish/subscribe model （pub/sub）all consumers that subscribed message can receive
 
